@@ -1,7 +1,13 @@
+#include <fstream>
 #include <iostream>
+#include <string>
+#include <sstream>
 #include <locale>
 
-// #include "interpreter.hpp"
+#include "interpreter.hpp"
+#include "parser.hpp"
+
+using std::string;
 
 int main(int argc, char** argv) {
 
@@ -13,7 +19,7 @@ int main(int argc, char** argv) {
     // to change that if we want locale-aware functions to use the configured
     // locale.
     // This sets the global" locale to the default locale. 
-    auto _ = std::locale::global(std::locale(""));
+    (void)std::locale::global(std::locale(""));
 
     // The various standard io streams were initialized before main started,
     // so they are all configured with the default global locale, std::locale("C").
@@ -23,17 +29,22 @@ int main(int argc, char** argv) {
     auto current_locale = std::locale();
 
     (void)std::cin.imbue(current_locale);
-    auto foo = std::cout.imbue(current_locale);
-    std::cerr.imbue(current_locale);
-    std::wcin.imbue(current_locale);
-    std::wcout.imbue(current_locale);
-    std::wcerr.imbue(current_locale);
+    (void)std::cout.imbue(current_locale);
+    (void)std::cerr.imbue(current_locale);
+    (void)std::wcin.imbue(current_locale);
+    (void)std::wcout.imbue(current_locale);
+    (void)std::wcerr.imbue(current_locale);
 
     // You can't write a wchar_t to cout, because cout only accepts char. wcout, on the
     // other hand, accepts both wchar_t and char; it will "widen" char. So it's
     // convenient to use wcout:
 
-    std::wcout << wchar_t(225) << std::endl;
-    std::wcout << wchar_t(960) << std::endl;
+    // std::wcout << wchar_t(225) << std::endl;
+    // std::wcout << wchar_t(960) << std::endl;
+
+    string brainfuck = bf::io::read_file("hello_world.bf");
+    auto result = bf::interpreter(brainfuck);
+
+
     return 0;
 }

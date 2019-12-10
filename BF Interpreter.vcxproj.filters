@@ -30,4 +30,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <Xsd Include="hello_world.xsd">
+      <Filter>Resource Files</Filter>
+    </Xsd>
+  </ItemGroup>
 </Project>
