@@ -7,6 +7,7 @@
 
 
 namespace bf {
+    struct InterpreterSession;
     wchar_t transform_unicode(unsigned int c);
-    std::unordered_map<int, unsigned int> interpreter(std::string code);
+    InterpreterSession interpreter(std::string code);
 }

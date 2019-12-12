@@ -1,15 +1,13 @@
-#include <algorithm>
-#include <fstream>
-#include <tuple>
-#include <sstream>
-#include <string>
-#include <unordered_map>
-#include <vector>
+#include <algorithm>     // std::sort
+#include <fstream>       // std::ifstream
+#include <tuple>         // std::tuple
+#include <sstream>       // std::stringstream
+#include <string>        // std::string
+#include <unordered_map> // std::unordered_map
+#include <utility>       // std::pair
+#include <vector>        // std::vector
 
-#include "interpreter.hpp"
-
-typedef int Key;
-typedef unsigned int Val;
+#include "interpreter.hpp" // bf::transform_unicode
 
 namespace bf {
     namespace io {
@@ -26,9 +24,15 @@ namespace bf {
         }
 
         void print_tape(std::unordered_map<int, unsigned int> tape) {
-            std::vector<std::pair<const Key, Val>> vec(tape.begin(), tape.end());
+            std::vector<std::pair<int, unsigned int>> vec(tape.begin(), tape.end());
             std::sort(vec.begin(), vec.end());
             for (auto& [idx, num] : vec) {
+                std::wcout << bf::transform_unicode(num);
+            }
+        }
+
+        void print_output(bf::InterpreterSession session_output) {
+            for (auto num : session_output.printed_chars) {
                 std::wcout << bf::transform_unicode(num);
             }
         }
