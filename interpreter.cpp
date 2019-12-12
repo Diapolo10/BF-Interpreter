@@ -82,11 +82,11 @@ namespace bf {
                     break;
             
                 case '.':
-                    std::cout << transform_unicode(tape.at(head));
+                    std::wcout << transform_unicode(tape.at(head));
                     break;
             
                 case ',':
-                    std::cin >> tape.at(head);
+                    std::wcin >> tape.at(head);
                     break;
             
                 default:

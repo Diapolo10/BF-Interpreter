@@ -6,6 +6,8 @@
 #include <unordered_map>
 #include <vector>
 
+#include "interpreter.hpp"
+
 typedef int Key;
 typedef unsigned int Val;
 
@@ -26,7 +28,9 @@ namespace bf {
         void print_tape(std::unordered_map<int, unsigned int> tape) {
             std::vector<std::pair<const Key, Val>> vec(tape.begin(), tape.end());
             std::sort(vec.begin(), vec.end());
-            
+            for (auto& [idx, num] : vec) {
+                std::wcout << bf::transform_unicode(num);
+            }
         }
     }
 }

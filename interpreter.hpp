@@ -8,5 +8,5 @@
 
 namespace bf {
     wchar_t transform_unicode(unsigned int c);
-    std::unordered_map<int, unsigned int> interpreter(string code);
+    std::unordered_map<int, unsigned int> interpreter(std::string code);
 }

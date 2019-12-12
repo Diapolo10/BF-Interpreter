@@ -21,6 +21,9 @@
     <ClCompile Include="interpreter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="parser.hpp">
@@ -31,8 +34,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Xsd Include="hello_world.xsd">
+    <Text Include="hello_world.bf">
       <Filter>Resource Files</Filter>
-    </Xsd>
+    </Text>
   </ItemGroup>
 </Project>
