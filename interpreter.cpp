@@ -4,9 +4,12 @@
 #include <unordered_map>
 #include <vector>
 
+#include "interpreter.hpp"
+#include "parser.hpp"
+
 #define DEBUG_MODE
 #ifdef DEBUG_MODE
-#  define DEBUG_LEVEL 1
+#  define DEBUG_LEVEL 2
 
   // Debugging levels:
   // 1: Most important messages
@@ -14,7 +17,7 @@
 
 #  define DEBUG(x) do {std::wcerr << x << std::endl;} while (false)
 #  if DEBUG_LEVEL == 2
-#    define FULL_DEBUG(x) do {x} while (false)
+#    define FULL_DEBUG(x) do {std::wcerr << x << std::endl;} while (false)
 #  else
 #    define FULL_DEBUG(x) do {} while (false)
 #  endif
@@ -28,11 +31,6 @@ using std::vector;
 using std::unordered_map;
 
 namespace bf {
-
-    struct InterpreterSession {
-        unordered_map<int, unsigned int> tape;
-        vector<unsigned int> printed_chars;
-    };
 
     wchar_t transform_unicode(unsigned int c) {
         return wchar_t(c);
@@ -49,6 +47,9 @@ namespace bf {
         int skip_until_depth {}; // Ignore until depth reached
         vector<std::pair<int, int>> loop_entry_points{};
         vector<unsigned int> printed_chars{};
+
+        code = bf::io::remove_comments(code);
+        std::cout << "Code to be executed: " << code << std::endl;
 
         for (unsigned int idx {}; idx < code.length(); ++idx) {
 

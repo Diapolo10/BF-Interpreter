@@ -137,6 +137,9 @@
   <ItemGroup>
     <Text Include="hello_world.bf" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="test.bf" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

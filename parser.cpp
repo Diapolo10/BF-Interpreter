@@ -1,6 +1,7 @@
 #include <algorithm>     // std::sort
 #include <fstream>       // std::ifstream
 #include <tuple>         // std::tuple
+#include <set>           // std::set
 #include <sstream>       // std::stringstream
 #include <string>        // std::string
 #include <unordered_map> // std::unordered_map
@@ -10,7 +11,21 @@
 #include "interpreter.hpp" // bf::transform_unicode
 
 namespace bf {
+
+    const std::set<char> OPERATORS {'+', '-', '>', '<', '[', ']', '.', ','};
+
     namespace io {
+
+        std::string remove_comments(std::string text) {
+            std::string result{};
+
+            for (auto chr : text) {
+                if (OPERATORS.count(chr)) {
+                    result += chr;
+                }
+            }
+            return result;
+        }
 
         std::string read_file(std::string filepath) {
 

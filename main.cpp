@@ -42,8 +42,19 @@ int main(int argc, char** argv) {
     // std::wcout << wchar_t(225) << std::endl;
     // std::wcout << wchar_t(960) << std::endl;
 
-    string brainfuck = bf::io::read_file("hello_world.bf");
+    string brainfuck = bf::io::read_file("test.bf");  //"hello_world.bf");
     auto result = bf::interpreter(brainfuck);
+    std::wcout << "Tape:\n[";
+    for (auto pair : result.tape) {
+        std::wcout << pair.second << ", ";
+    }
+    std::wcout << "]\n" << std::endl;
+
+    std::wcout << "Output:\n";
+    for (auto num : result.printed_chars) {
+        std::wcout << bf::transform_unicode(num);
+    }
+    std::wcout << "\n" << std::endl;
 
 
     return 0;

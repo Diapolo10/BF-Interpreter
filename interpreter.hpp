@@ -7,7 +7,10 @@
 
 
 namespace bf {
-    struct InterpreterSession;
+    struct InterpreterSession {
+        std::unordered_map<int, unsigned int> tape;
+        std::vector<unsigned int> printed_chars;
+    };
     wchar_t transform_unicode(unsigned int c);
     InterpreterSession interpreter(std::string code);
 }
