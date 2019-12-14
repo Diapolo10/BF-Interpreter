@@ -9,7 +9,7 @@
 
 using std::string;
 
-int main(int argc, char** argv) {
+int main(int argc, unsigned char** argv) {
 
     // From https://stackoverflow.com/a/23466097
 
@@ -44,17 +44,7 @@ int main(int argc, char** argv) {
 
     string brainfuck = bf::io::read_file("test.bf");  //"hello_world.bf");
     auto result = bf::interpreter(brainfuck);
-    std::wcout << "Tape:\n[";
-    for (auto pair : result.tape) {
-        std::wcout << pair.second << ", ";
-    }
-    std::wcout << "]\n" << std::endl;
-
-    std::wcout << "Output:\n";
-    for (auto num : result.printed_chars) {
-        std::wcout << bf::transform_unicode(num);
-    }
-    std::wcout << "\n" << std::endl;
+    bf::io::print_output(result);
 
 
     return 0;

@@ -7,10 +7,15 @@
 
 
 namespace bf {
+
+    typedef uint8_t Cell;
+    typedef std::vector<std::pair<int, int>> LoopCache;
+
+
     struct InterpreterSession {
-        std::unordered_map<int, unsigned int> tape;
-        std::vector<unsigned int> printed_chars;
+        std::vector<bf::Cell> tape;
+        std::vector<bf::Cell> printed_chars;
     };
-    wchar_t transform_unicode(unsigned int c);
+    wchar_t transform_unicode(Cell c);
     InterpreterSession interpreter(std::string code);
 }

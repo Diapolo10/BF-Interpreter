@@ -32,21 +32,21 @@ using std::unordered_map;
 
 namespace bf {
 
-    wchar_t transform_unicode(unsigned int c) {
+    wchar_t transform_unicode(Cell c) {
         return wchar_t(c);
     }
 
     InterpreterSession interpreter(string code) {
     
-        unordered_map<int, unsigned int> tape {
-            {0, 0} // By default, the tape only has the starting cell that defaults to zero.
+        vector<Cell> tape {
+            0 // By default, the tape only has the starting cell that defaults to zero.
         };
-        int head {0};            // Current cell
-        int depth {0};           // Current instruction depth
+        size_t head {0};         // Current cell
+        vector<int> depth {0};   // Current instruction depth
         bool skip {false};       // Ignore next instructions
         int skip_until_depth {}; // Ignore until depth reached
-        vector<std::pair<int, int>> loop_entry_points{};
-        vector<unsigned int> printed_chars{};
+        LoopCache loop_entry_points {};
+        vector<Cell> printed_chars {};
 
         code = bf::io::remove_comments(code);
         std::cout << "Code to be executed: " << code << std::endl;
@@ -55,7 +55,7 @@ namespace bf {
 
             auto instruction {code.at(idx)};
 
-            if (skip && skip_until_depth != depth) {
+            if (skip && skip_until_depth != depth.back()) {
                 if (instruction == ']' || instruction == '[') {
                 
                 }
@@ -68,6 +68,10 @@ namespace bf {
             
                 case '>':
                     ++head;
+                    if (head >= tape.size()) {
+                        tape.push_back(0);
+                        FULL_DEBUG("Increased tape size to " << tape.size());
+                    }
                     FULL_DEBUG("Moved head right");
                     break;
 
@@ -77,27 +81,47 @@ namespace bf {
                     break;
 
                 case '[':
-                    DEBUG("Entered loop at depth " << depth);
+                    DEBUG("Entered loop at depth " << depth.back());
                     
                     if (tape.at(head) == 0) {
                         DEBUG("Skipping loop");
                         if (!skip) {
                             skip = true;
-                            skip_until_depth = depth;
+                            skip_until_depth = depth.back();
                         }
                     }
                     else {
-                        loop_entry_points.push_back(std::pair{depth, head});
+                        loop_entry_points.push_back(std::pair{depth.back(), head});
                         DEBUG("Stored loop entry point");
                     }
-                    ++depth;
+                    depth.push_back(depth.back()+1);
                     break;
             
                 case ']':
-                    --depth;
-                    DEBUG("Reached end of loop at depth " << depth);
+                    depth.pop_back();
+                    DEBUG("Reached end of loop at depth " << depth.back()+1);
 
-                    if (skip && skip_until_depth == depth) {
+                    if (skip && (skip_until_depth == depth.back())) {
+
+                        DEBUG("Cleaning up loop entry points");
+
+                        for (auto idx {loop_entry_points.size()}; idx != 0; --idx) {
+                            if (loop_entry_points.at(idx).first == depth.back()) {
+                                loop_entry_points.erase(loop_entry_points.begin() + idx);
+                                DEBUG("Erased last entry point");
+                                break;
+                            }
+                            else {
+                                DEBUG(
+                                    "Loop entry point at depth " <<
+                                    loop_entry_points.at(idx).first <<
+                                    " pointing to " <<
+                                    loop_entry_points.at(idx).second <<
+                                    " erased"
+                                );
+                                loop_entry_points.erase(loop_entry_points.begin() + idx);
+                            }
+                        }
 
                         skip = false;
                         skip_until_depth = 0;
@@ -106,35 +130,23 @@ namespace bf {
                     }
                     else {
                         for (auto [dpth, idx] : loop_entry_points) {
-                            if (dpth == depth) {
+                            if (dpth == depth.back()) {
                                 head = idx;
                                 DEBUG("Moved head to " << head);
                             }
                         }
                     }
+                    DEBUG("Head now in position " << head);
                     break;
             
                 case '+':
-                    try {
-                        ++tape.at(head);
-                        DEBUG("Incremented slot " << head << " to " << tape.at(head));
-                    }
-                    catch (std::out_of_range) {
-                        tape[head] = 1;
-                        DEBUG("Created new slot at " << head << " set to 1");
-                    }
+                    ++tape.at(head);
+                    DEBUG("Incremented slot " << head << " to " << tape.at(head));
                     break;
             
                 case '-':
-                    try {
-                        --tape.at(head);
-                        DEBUG("Decremented slot " << head << " to " << tape.at(head));
-                    }
-                    catch (std::out_of_range) {
-                        tape[head] = -1; // Rolls back to maximum value
-                        #pragma warning(suppress: 26454)
-                        DEBUG("Created new slot at " << head << " set to " << (0U - 1));
-                    }
+                    --tape.at(head);
+                    DEBUG("Decremented slot " << head << " to " << tape.at(head));
                     break;
             
                 case '.':
@@ -144,7 +156,7 @@ namespace bf {
             
                 case ',':
                     DEBUG("Taking input from user");
-                    std::wcin >> tape.at(head);
+                    std::cin >> tape.at(head);
                     break;
             
                 default:

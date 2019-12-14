@@ -8,11 +8,10 @@
 #include <utility>       // std::pair
 #include <vector>        // std::vector
 
-#include "interpreter.hpp" // bf::transform_unicode
+#include "interpreter.hpp" // bf::transform_unicode, bf::InterpreterSession
+#include "parser.hpp"
 
 namespace bf {
-
-    const std::set<char> OPERATORS {'+', '-', '>', '<', '[', ']', '.', ','};
 
     namespace io {
 
@@ -38,18 +37,19 @@ namespace bf {
             return buffer.str();
         }
 
-        void print_tape(std::unordered_map<int, unsigned int> tape) {
-            std::vector<std::pair<int, unsigned int>> vec(tape.begin(), tape.end());
-            std::sort(vec.begin(), vec.end());
-            for (auto& [idx, num] : vec) {
-                std::wcout << bf::transform_unicode(num);
-            }
-        }
+        void print_output(InterpreterSession session_output) {
 
-        void print_output(bf::InterpreterSession session_output) {
+            std::wcout << "Tape:\n[";
+            for (Cell cell : session_output.tape) {
+                std::wcout << cell << ", ";
+            }
+            std::wcout << "]\n" << std::endl;
+
+            std::wcout << "Output:\n";
             for (auto num : session_output.printed_chars) {
                 std::wcout << bf::transform_unicode(num);
             }
+            std::wcout << std::endl;
         }
     }
 }
