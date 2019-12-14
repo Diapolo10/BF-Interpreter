@@ -45,17 +45,18 @@ namespace bf {
         vector<int> depth {0};   // Current instruction depth
         bool skip {false};       // Ignore next instructions
         int skip_until_depth {}; // Ignore until depth reached
-        LoopCache loop_entry_points {};
+        Stack stack {};
         vector<Cell> printed_chars {};
 
         code = bf::io::remove_comments(code);
         std::cout << "Code to be executed: " << code << std::endl;
 
-        for (unsigned int idx {}; idx < code.length(); ++idx) {
+        for (size_t idx {}; idx < code.length(); ++idx) {
 
             auto instruction {code.at(idx)};
 
             if (skip && skip_until_depth != depth.back()) {
+                FULL_DEBUG("Skipping continues");
                 if (instruction == ']' || instruction == '[') {
                 
                 }
@@ -83,6 +84,8 @@ namespace bf {
                 case '[':
                     DEBUG("Entered loop at depth " << depth.back());
                     
+                    stack.push_back(std::pair{ head, idx });
+
                     if (tape.at(head) == 0) {
                         DEBUG("Skipping loop");
                         if (!skip) {
@@ -91,50 +94,29 @@ namespace bf {
                         }
                     }
                     else {
-                        loop_entry_points.push_back(std::pair{depth.back(), head});
                         DEBUG("Stored loop entry point");
                     }
                     depth.push_back(depth.back()+1);
                     break;
             
                 case ']':
-                    depth.pop_back();
-                    DEBUG("Reached end of loop at depth " << depth.back()+1);
 
-                    if (skip && (skip_until_depth == depth.back())) {
+                    DEBUG("Reached end of loop at depth " << depth.back()-1);
 
-                        DEBUG("Cleaning up loop entry points");
+                    if (skip && (tape.at(stack.back().first) == 0)) {
 
-                        for (auto idx {loop_entry_points.size()}; idx != 0; --idx) {
-                            if (loop_entry_points.at(idx).first == depth.back()) {
-                                loop_entry_points.erase(loop_entry_points.begin() + idx);
-                                DEBUG("Erased last entry point");
-                                break;
-                            }
-                            else {
-                                DEBUG(
-                                    "Loop entry point at depth " <<
-                                    loop_entry_points.at(idx).first <<
-                                    " pointing to " <<
-                                    loop_entry_points.at(idx).second <<
-                                    " erased"
-                                );
-                                loop_entry_points.erase(loop_entry_points.begin() + idx);
-                            }
+                        depth.pop_back();
+
+                        if (skip_until_depth == depth.back()) {
+                            skip = false;
+                            DEBUG("Stopped skipping");
                         }
 
-                        skip = false;
-                        skip_until_depth = 0;
-                        DEBUG("Stopped skipping");
+                        stack.pop_back();
                         continue;
                     }
                     else {
-                        for (auto [dpth, idx] : loop_entry_points) {
-                            if (dpth == depth.back()) {
-                                head = idx;
-                                DEBUG("Moved head to " << head);
-                            }
-                        }
+                        idx = stack.back().second;
                     }
                     DEBUG("Head now in position " << head);
                     break;

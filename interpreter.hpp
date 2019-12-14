@@ -9,7 +9,8 @@
 namespace bf {
 
     typedef uint8_t Cell;
-    typedef std::vector<std::pair<int, int>> LoopCache;
+    // std::pair<Head, Idx>
+    typedef std::vector<std::pair<int, int>> Stack;
 
 
     struct InterpreterSession {
