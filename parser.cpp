@@ -39,7 +39,7 @@ namespace bf {
 
         void print_output(InterpreterSession session_output) {
 
-            std::wcout << "Tape:\n[";
+            std::wcout << "\n\nTape:\n[";
             for (Cell cell : session_output.tape) {
                 std::wcout << cell << ", ";
             }

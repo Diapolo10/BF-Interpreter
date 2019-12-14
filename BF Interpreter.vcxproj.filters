@@ -42,7 +42,16 @@
     <None Include="test.bf">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="hello_world_complex.bf">
+    <None Include="this_is_pretty_cool.bf">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="lorem_ipsum.bf">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="number_adder.bf">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="rot13.bf">
       <Filter>Resource Files</Filter>
     </None>
   </ItemGroup>

@@ -7,7 +7,7 @@
 #include "interpreter.hpp"
 #include "parser.hpp"
 
-#define DEBUG_MODE
+// #define DEBUG_MODE
 #ifdef DEBUG_MODE
 #  define DEBUG_LEVEL 2
 
@@ -45,11 +45,12 @@ namespace bf {
         vector<int> depth {0};   // Current instruction depth
         bool skip {false};       // Ignore next instructions
         int skip_until_depth {}; // Ignore until depth reached
+        string input {};         // User input
         Stack stack {};
         vector<Cell> printed_chars {};
 
         code = bf::io::remove_comments(code);
-        std::cout << "Code to be executed: " << code << std::endl;
+        std::cout << "Code to be executed: " << code << "\n" <<std::endl;
 
         for (size_t idx {}; idx < code.length(); ++idx) {
 
@@ -115,10 +116,16 @@ namespace bf {
                         stack.pop_back();
                         continue;
                     }
+                    else if (tape.at(stack.back().first) == 0 || tape.at(head) == 0){
+                        depth.pop_back();
+                        stack.pop_back();
+                        DEBUG("Exiting loop");
+                        continue;
+                    }
                     else {
                         idx = stack.back().second;
                     }
-                    DEBUG("Head now in position " << head);
+                    DEBUG("Head now in position " << head << " containing value " << tape.at(head));
                     break;
             
                 case '+':
@@ -132,13 +139,24 @@ namespace bf {
                     break;
             
                 case '.':
+                    #ifndef DEBUG_MODE
+                    std::wcout << transform_unicode(tape.at(head));
+                    #else
                     DEBUG(transform_unicode(tape.at(head)));
+                    #endif
                     printed_chars.push_back(tape.at(head));
                     break;
             
                 case ',':
                     DEBUG("Taking input from user");
-                    std::cin >> tape.at(head);
+                    std::wcout << "Input: ";
+                    std::getline(std::cin, input);
+                    if (input.empty()) {
+                        tape.at(head) = 0;
+                    }
+                    else {
+                        tape.at(head) = Cell(input.front());
+                    }
                     break;
             
                 default:
