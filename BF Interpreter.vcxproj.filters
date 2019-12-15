@@ -15,19 +15,47 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\interpreter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="interpreter.cpp">
+    <ClCompile Include="src\parser.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="parser.hpp">
+    <ClInclude Include="src\interpreter.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="interpreter.hpp">
+    <ClInclude Include="src\parser.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\util.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="test_scripts\rot13.bf">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="test_scripts\this_is_pretty_cool.bf">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="test_scripts\test.bf">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="test_scripts\number_adder.bf">
+      <Filter>Resource Files</Filter>
+    </None>
+    <None Include="test_scripts\lorem_ipsum.bf">
+      <Filter>Resource Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="test_scripts\hello_world.bf">
+      <Filter>Resource Files</Filter>
+    </Text>
   </ItemGroup>
 </Project>
