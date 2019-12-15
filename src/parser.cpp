@@ -1,15 +1,13 @@
-#include <algorithm>     // std::sort
-#include <fstream>       // std::ifstream
-#include <tuple>         // std::tuple
-#include <set>           // std::set
-#include <sstream>       // std::stringstream
-#include <string>        // std::string
-#include <unordered_map> // std::unordered_map
-#include <utility>       // std::pair
-#include <vector>        // std::vector
 
-#include "interpreter.hpp" // bf::transform_unicode, bf::InterpreterSession
-#include "parser.hpp"
+// C++17
+
+#include <fstream>   // std::ifstream
+#include <iostream>  // std::{wcout, endl}
+#include <sstream>   // std::stringstream
+#include <string>    // std::string
+
+#include "interpreter.hpp"  // bf::{transform_unicode, InterpreterSession, op::OPERATORS}
+#include "parser.hpp"       // void
 
 namespace bf {
 
@@ -19,7 +17,7 @@ namespace bf {
             std::string result{};
 
             for (auto chr : text) {
-                if (OPERATORS.count(chr)) {
+                if (bf::op::OPERATORS.count(chr)) {
                     result += chr;
                 }
             }
@@ -50,6 +48,27 @@ namespace bf {
                 std::wcout << bf::transform_unicode(num);
             }
             std::wcout << std::endl;
+        }
+
+        void print_output(InterpreterSession session_output, std::string output_file) {
+
+            std::string output;
+
+            output.append("\n\nTape:\n[");
+            for (unsigned int cell : session_output.tape) {
+                output.append(std::to_string(cell) + ", ");
+            }
+            output.append("]\n\n");
+
+            output.append("Output:\n");
+            for (auto num : session_output.printed_chars) {
+                output.append(std::string(1, num));
+            }
+            output.append("\n");
+
+            std::ofstream file(output_file);
+            file << output;
+            file.close();
         }
     }
 }

@@ -1,24 +1,17 @@
-#include <fstream>
-#include <iostream>
-#include <string>
-#include <sstream>
-#include <locale>
 
-#include "interpreter.hpp"
-#include "parser.hpp"
+// C++17
 
-using std::string;
+#include <iostream> // std::{cin, cout, cerr, wcin, wcout, wcerr}
+#include <string>   // std::string
+#include <locale>   // std::locale
 
-int main(int argc, unsigned char** argv) {
+#include "interpreter.hpp"  // bf::interpreter
+#include "parser.hpp"       // bf::{read_file, print_output}
+#include "util.hpp"         // bf::argparse::{get_cmd_option, cmd_option_exists}
 
-    // From https://stackoverflow.com/a/23466097
+int main(int argc, char* argv[]) {
 
-    // std::locale()   is the "global" locale
-    // std::locale("") is the locale configured through the locale system
-    // At startup, the global locale is set to std::locale("C"), so we need
-    // to change that if we want locale-aware functions to use the configured
-    // locale.
-    // This sets the global" locale to the default locale. 
+    // This sets the "global" locale to the default locale. 
     (void)std::locale::global(std::locale(""));
 
     // The various standard io streams were initialized before main started,
@@ -35,17 +28,33 @@ int main(int argc, unsigned char** argv) {
     (void)std::wcout.imbue(current_locale);
     (void)std::wcerr.imbue(current_locale);
 
-    // You can't write a wchar_t to cout, because cout only accepts char. wcout, on the
-    // other hand, accepts both wchar_t and char; it will "widen" char. So it's
-    // convenient to use wcout:
+    // Default options
+    std::string input_file {"test_scripts/hello_world.bf"};
+    std::string output_file {};
 
-    // std::wcout << wchar_t(225) << std::endl;
-    // std::wcout << wchar_t(960) << std::endl;
+    // Parse arguments passed from the command line, if any
 
-    string brainfuck = bf::io::read_file("test_scripts/hello_world.bf");
+    // Input file path
+    if (bf::argparse::cmd_option_exists(argv, argv + argc, "-f")) {
+        input_file = bf::argparse::get_cmd_option(argv, argv + argc, "-f");
+    }
+
+    // Output file path
+    if (bf::argparse::cmd_option_exists(argv, argv + argc, "-o")) {
+        output_file = bf::argparse::get_cmd_option(argv, argv + argc, "-o");
+    }
+
+
+    std::string brainfuck = bf::io::read_file(input_file);
     auto result = bf::interpreter(brainfuck);
-    bf::io::print_output(result);
 
+    // If an output file was declared, write the output to it, including the tape
+    if (output_file == "") {
+        bf::io::print_output(result);
+    }
+    else {
+        bf::io::print_output(result, output_file);
+    }
 
     return 0;
 }

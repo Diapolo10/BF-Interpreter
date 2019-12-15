@@ -1,3 +1,4 @@
+
 // C++17
 
 #include <exception>    // std::exception
@@ -7,6 +8,12 @@
 #include <vector>       // std::vector
 
 #include "interpreter.hpp"  // bf::{Cell, Stack, InterpreterSession}
+
+/* 
+ * Useful debug messages, can be toggled
+ * on or off by uncommenting/commenting
+ * the next line
+ */
 
 // #define DEBUG_MODE
 #ifdef DEBUG_MODE
@@ -100,7 +107,7 @@ namespace bf {
             
                     default:
                         /* Comment or unsupported language extension */
-                        FULL_DEBUG("Unrecognised operator");
+                        FULL_DEBUG("Unrecognised operator '" << instruction << "'");
                         continue;
                 }
             }
