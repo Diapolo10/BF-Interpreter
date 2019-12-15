@@ -42,7 +42,7 @@ int main(int argc, unsigned char** argv) {
     // std::wcout << wchar_t(225) << std::endl;
     // std::wcout << wchar_t(960) << std::endl;
 
-    string brainfuck = bf::io::read_file("rot13.bf");
+    string brainfuck = bf::io::read_file("test_scripts/hello_world.bf");
     auto result = bf::interpreter(brainfuck);
     bf::io::print_output(result);
 

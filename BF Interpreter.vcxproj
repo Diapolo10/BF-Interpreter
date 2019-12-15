@@ -126,23 +126,23 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="interpreter.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="parser.cpp" />
+    <ClCompile Include="src\interpreter.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\parser.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="interpreter.hpp" />
-    <ClInclude Include="parser.hpp" />
+    <ClInclude Include="src\interpreter.hpp" />
+    <ClInclude Include="src\parser.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <Text Include="hello_world.bf" />
+    <Text Include="test_scripts\hello_world.bf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="lorem_ipsum.bf" />
-    <None Include="number_adder.bf" />
-    <None Include="rot13.bf" />
-    <None Include="test.bf" />
-    <None Include="this_is_pretty_cool.bf" />
+    <None Include="test_scripts\lorem_ipsum.bf" />
+    <None Include="test_scripts\number_adder.bf" />
+    <None Include="test_scripts\rot13.bf" />
+    <None Include="test_scripts\test.bf" />
+    <None Include="test_scripts\this_is_pretty_cool.bf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

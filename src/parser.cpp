@@ -34,7 +34,7 @@ namespace bf {
             buffer << file.rdbuf();
             file.close();
 
-            return buffer.str();
+            return remove_comments(buffer.str());
         }
 
         void print_output(InterpreterSession session_output) {
