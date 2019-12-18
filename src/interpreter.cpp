@@ -54,6 +54,8 @@ namespace bf {
 
             for (self.idx; self.idx < code.length(); ++self.idx) {
 
+                // This was the only sure-fire place to put the backup update,
+                // because the switch-case may use continue
                 previous_self = self;
                 --previous_self.idx;
 
@@ -203,14 +205,30 @@ namespace bf {
 
         void take_input(InterpreterSession& self) {
             DEBUG("Taking input from user");
-            std::wcout << "Input: ";
-            std::getline(std::cin, self.input);
-            if (self.input.empty()) {
-                self.tape.at(self.head) = 0;
+
+            if (self.input_buffer == L"") {
+                std::wcout << "Input: ";
+                std::getline(std::wcin, self.input_buffer);
+                DEBUG("Input taken: [" << self.input << "]");
+            }
+
+            if (self.input_buffer.length() != 0) {
+                self.input = self.input_buffer[0];
+                self.input_buffer.erase(0, 1);
             }
             else {
-                self.tape.at(self.head) = Cell(self.input.front());
+                self.input = L'\0';
             }
+
+            if (self.input == L'\0' || self.input == L'\n' || self.input_buffer == L"") {
+                DEBUG("Input is empty");
+                self.tape.at(self.head) = -1;
+            }
+            else {
+                self.tape.at(self.head) = Cell(self.input);
+                DEBUG("Cell is " << (int)self.tape.at(self.head));
+            }
+
         }
 
     }

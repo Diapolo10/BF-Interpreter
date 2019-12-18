@@ -140,6 +140,7 @@
     <Text Include="test_scripts\hello_world.bf" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="test_scripts\hanoi.bf" />
     <None Include="test_scripts\lorem_ipsum.bf" />
     <None Include="test_scripts\number_adder.bf" />
     <None Include="test_scripts\rot13.bf" />
