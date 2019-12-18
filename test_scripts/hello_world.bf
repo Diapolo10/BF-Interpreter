@@ -1,5 +1,6 @@
 [ This program prints "Hello World!" and a newline to the screen, its
   length is 106 active command characters. [It is not the shortest.]
+  It was taken from Wikipedia.
 
   This loop is an "initial comment loop", a simple way of adding a comment
   to a BF program such that you don't have to worry about any command

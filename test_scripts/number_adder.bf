@@ -1,3 +1,5 @@
+[This program simply adds two pre-configured numbers and returns their sum.]
+
 ++       Cell c0 = 2
 > +++++  Cell c1 = 5
 

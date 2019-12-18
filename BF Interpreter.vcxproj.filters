@@ -52,6 +52,7 @@
     <None Include="test_scripts\lorem_ipsum.bf">
       <Filter>Resource Files</Filter>
     </None>
+    <None Include="test_scripts\hanoi.bf" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="test_scripts\hello_world.bf">
