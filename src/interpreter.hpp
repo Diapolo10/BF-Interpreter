@@ -30,9 +30,9 @@ namespace bf {
         bf::Tape printed_chars {};  // All values that were set to be printed
         std::vector<int> depth {0}; // Current instruction depth
         bf::Stack stack {};         // Keeps track of loop entry points
-        std::string input {};       // A buffer for user input
         std::size_t head {};        // A 'pointer' to the current memory location
         std::size_t idx {};         // Current instruction index
+        wchar_t input{};            // A buffer for user input
         bool skip {false};          // Ignore next instructions
         int skip_until_depth {};    // Ignore until specific depth reached
     };
