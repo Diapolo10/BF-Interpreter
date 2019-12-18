@@ -32,7 +32,8 @@ namespace bf {
         bf::Stack stack {};         // Keeps track of loop entry points
         std::size_t head {};        // A 'pointer' to the current memory location
         std::size_t idx {};         // Current instruction index
-        wchar_t input{};            // A buffer for user input
+        std::wstring input_buffer{};// A buffer for user input
+        wchar_t input{};            // A character from user input
         bool skip {false};          // Ignore next instructions
         int skip_until_depth {};    // Ignore until specific depth reached
     };

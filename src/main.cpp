@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
     (void)std::wcerr.imbue(current_locale);
 
     // Default options
-    std::string input_file {"test_scripts/rot13.bf"};
+    std::string input_file {"test_scripts/hello_world.bf"};
     std::string output_file {};
 
     // Parse arguments passed from the command line, if any

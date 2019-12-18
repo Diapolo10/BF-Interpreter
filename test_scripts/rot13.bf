@@ -1,3 +1,7 @@
+[This program was taken from Wikipedia. It asks for a string as input, and uses the
+ ROT-13 cipher on it, returning the cipher. The user may enter the string all in one go
+ instead of inputting one character at a time, as the interpreter supports input caching.]
+
 -,+[                         Read first character and start outer character reading loop
     -[                       Skip forward if character is 0
         >>++++[>++++++++<-]  Set up divisor (32) for division loop
