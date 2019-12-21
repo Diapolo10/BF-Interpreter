@@ -7,6 +7,7 @@
 
 #include "interpreter.hpp"  // bf::interpreter
 #include "parser.hpp"       // bf::{read_file, print_output}
+#include "transpiler.hpp"   // bf::io::generate_c
 #include "util.hpp"         // bf::argparse::{get_cmd_option, cmd_option_exists}
 
 int main(int argc, char* argv[]) {
@@ -31,6 +32,7 @@ int main(int argc, char* argv[]) {
     // Default options
     std::string input_file {"test_scripts/hello_world.bf"};
     std::string output_file {};
+    std::string mode {"interpreter"};
 
     // Parse arguments passed from the command line, if any
 
@@ -44,8 +46,18 @@ int main(int argc, char* argv[]) {
         output_file = bf::argparse::get_cmd_option(argv, argv + argc, "-o");
     }
 
+    // Mode
+    if (bf::argparse::cmd_option_exists(argv, argv + argc, "-m")) {
+        mode = bf::argparse::get_cmd_option(argv, argv + argc, "-m");
+    }
 
     std::string brainfuck = bf::io::read_file(input_file);
+
+    if (mode == "transpiler") {
+        std::cout << bf::io::generate_c(brainfuck) << std::endl;
+    }
+
+
     auto result = bf::interpreter(brainfuck);
 
     // If an output file was declared, write the output to it, including the tape

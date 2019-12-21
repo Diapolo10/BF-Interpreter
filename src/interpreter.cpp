@@ -8,6 +8,7 @@
 #include <vector>       // std::vector
 
 #include "interpreter.hpp"  // bf::{Cell, Stack, InterpreterSession}
+#include "parser.hpp"
 
 /* 
  * Useful debug messages, can be toggled
@@ -48,7 +49,8 @@ namespace bf {
         InterpreterSession self {};
         InterpreterSession previous_self {};
 
-        std::cout << "Code to be executed: " << code << "\n" <<std::endl;
+        std::cout << "Code to be executed: " << code << "\n" << std::endl;
+        std::cout << "Optimised code: " << bf::io::shorten(code) << "\n" << std::endl;
 
         try {
 

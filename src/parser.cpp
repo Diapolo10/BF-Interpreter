@@ -16,11 +16,57 @@ namespace bf {
         std::string remove_comments(std::string text) {
             std::string result{};
 
+            // Removes all but operator characters
             for (auto chr : text) {
                 if (bf::op::OPERATORS.count(chr)) {
                     result += chr;
                 }
             }
+
+            // Removes the preceding empty loop comment, if any
+            if (result.at(0) == '[') {
+                int depth {1};
+                for (size_t idx{1}; idx < result.length(); ++idx) {
+                    if (result.at(idx) == '[') {
+                        ++depth;
+                    }
+                    else if (result.at(idx) == ']') {
+                        --depth;
+                        if (depth == 0) {
+                            result = result.substr(++idx);
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return result;
+        }
+
+        std::string shorten(std::string text) {
+
+            text = bf::io::remove_comments(text);
+
+            std::string result{};
+            size_t count{};
+
+            for (size_t i{}; i < text.length(); ++i) {
+                char current {text.at(i)};
+
+                if (current == '+' || current == '-' || current == '<' || current == '>') {
+                    ++count;
+                }
+                else {
+                    result += current;
+                    continue;
+                }
+
+                if (i == text.length()-1 || text.at(i + 1) != current) {
+                    result += (current + std::to_string(count));
+                    count = 0;
+                }
+            }
+
             return result;
         }
 

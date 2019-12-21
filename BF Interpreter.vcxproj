@@ -130,17 +130,18 @@
     <ClCompile Include="src\interpreter.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\parser.cpp" />
+    <ClCompile Include="src\transpiler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\interpreter.hpp" />
     <ClInclude Include="src\parser.hpp" />
+    <ClInclude Include="src\transpiler.hpp" />
     <ClInclude Include="src\util.hpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="test_scripts\hello_world.bf" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="test_scripts\hanoi.bf" />
     <None Include="test_scripts\lorem_ipsum.bf" />
     <None Include="test_scripts\number_adder.bf" />
     <None Include="test_scripts\rot13.bf" />

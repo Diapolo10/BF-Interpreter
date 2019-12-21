@@ -24,6 +24,9 @@
     <ClCompile Include="src\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\transpiler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\interpreter.hpp">
@@ -33,6 +36,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\util.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\transpiler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -52,7 +58,6 @@
     <None Include="test_scripts\lorem_ipsum.bf">
       <Filter>Resource Files</Filter>
     </None>
-    <None Include="test_scripts\hanoi.bf" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="test_scripts\hello_world.bf">
