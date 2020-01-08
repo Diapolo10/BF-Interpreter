@@ -29,7 +29,7 @@ int main(int argc, char* argv[]) {
     (void)std::wcerr.imbue(current_locale);
 
     // Default options
-    std::string input_file {"test_scripts/hello_world.bf"};
+    std::string input_file {};
     std::string output_file {};
 
     // Parse arguments passed from the command line, if any
@@ -42,6 +42,11 @@ int main(int argc, char* argv[]) {
     // Output file path
     if (bf::argparse::cmd_option_exists(argv, argv + argc, "-o")) {
         output_file = bf::argparse::get_cmd_option(argv, argv + argc, "-o");
+    }
+
+    if (input_file.empty()) {
+        std::cerr << "Error: No input file provided" << std::endl;
+        return 1;
     }
 
 
